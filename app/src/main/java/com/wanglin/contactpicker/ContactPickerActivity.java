@@ -25,7 +25,12 @@ public class ContactPickerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_contact_picker);
 
         /*
-        * 以下代码过程为
+        * 以下代码过程为:
+        * 1. 创建Cursor，遍历联系人
+        * 2. 将Cursor绑定到ListView
+        * 3. 对ListView建立onItemClickListener，监视点击事件
+        * 4. 将选中项的URI传递给Intent
+        * 5. Intent作为数据返回给Activity
         * */
 
 
