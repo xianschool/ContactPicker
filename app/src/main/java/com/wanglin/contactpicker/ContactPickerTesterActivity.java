@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class ContactPickerTesterActivity extends ActionBarActivity {
 
 
-    public static final int PICK_CONTACT = 1;
+    public static final int PICK_CONTACT = 1;       //  定义执行码！
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,18 @@ public class ContactPickerTesterActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*
+                * intent构造函数的两个参数分别为：定义intent的动作，以及动作执行数据的uri
+                * 由于intent是全局使用的，所以动作的定义需要在同一个命名空间内
+                * 如android.intent.action.VIEW
+                * 或者自定义动作为：com.wanglin.app.myapp.CUSTOM_ACTION
+                * */
+
                 Intent intent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts/"));
+
+                //第二个参数为执行码，是后面返回结果的子Activity的唯一标识。
+                // 若执行码大于0，则程序会在onActivityResult函数中返回相应结果
                 startActivityForResult(intent, PICK_CONTACT);
             }
         });
@@ -38,11 +49,24 @@ public class ContactPickerTesterActivity extends ActionBarActivity {
 
     @Override
     public  void onActivityResult(int reqCode, int resCode, Intent data){
+
+        /*
+        * 关键字super指的是父类，而关键字this是指当前对象
+        * 此处在重写的函数onActivityResult中调用了父类的onActivityResult函数
+        * */
+
         super.onActivityResult(reqCode, resCode,data);
+
+
+        /*
+        * reqCode即是上文提到的执行码（requestCode），作为处理返回数据的唯一标识
+        * resCode即是在ContactPickerActivity中setResult(Activity.RESULT_OK, outData)的resultCode参数，用来标识运行结果
+        * */
 
         switch(reqCode){
             case (PICK_CONTACT) :{
                 if(resCode == Activity.RESULT_OK){
+
                     Uri contactData = data.getData();
                     Cursor c = getContentResolver().query(contactData, null, null, null, null);
                     c.moveToFirst();

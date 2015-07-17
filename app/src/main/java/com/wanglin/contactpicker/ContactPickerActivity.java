@@ -85,11 +85,20 @@ public class ContactPickerActivity extends ActionBarActivity {
             * */
 
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+
                 //将cursor移动至选中项
                 c.moveToPosition(pos);
+
                 //获取行id
                 int rowID = c.getInt(c.getColumnIndexOrThrow("_id"));
+
                 //构建Result URI
+                /*
+                 * withAppendedId (Uri contentUri, long id)
+                 *把id和contentUri连接成一个新的Uri
+                 * ContactsContract.Contacts.CONTENT_URI为联系人的uri
+                 * rowID为具体id，定位uri
+                 *  */
                 Uri outURI = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, rowID);
                 Intent outData = new Intent();
                 outData.setData(outURI);
